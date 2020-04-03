@@ -1,21 +1,16 @@
 import { displayLog } from './utils';
-import { Observable } from 'rxjs';
+import { from } from 'rxjs';
 
 export default () => {
-	const hello = Observable.create((observer) => {
-		observer.next("Hello");
-		setTimeout(() => {
-			observer.next("World");
-			observer.complete();
-		}, 2000);
-	});
+	const myArray = [1,2,3,4,5];
 
-	const observer = {
-		next: evt => displayLog(evt),
-		error: err => console.error('[ERR]', err),
-		complete: () => displayLog('[DONE]')
-	};
-	const subscription = hello.subscribe(observer);
-	const subscription2 = hello.subscribe(observer);
-	subscription.unsubscribe();
+	const myString = 'Hello World';
+
+	const myPromise = new Promise(resolve => setTimeout(() => {
+		resolve('Hello World');
+	}, 2000));
+
+	const observable = from(myPromise);
+	const subscription = observable.subscribe(val => displayLog(val));
+
 }
