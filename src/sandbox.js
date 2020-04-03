@@ -1,5 +1,6 @@
 import { fromEvent } from 'rxjs';
-import { map, takeWhile, last, tap, takeLast, skip} from 'rxjs/operators';
+import { map, takeWhile, last, tap, takeLast, skip, reduce, scan } from 'rxjs/operators';
+import { displayLog } from './utils';
 
 export default () => {
 	/** start coding */
@@ -12,21 +13,24 @@ export default () => {
 
 		// take(4)
 
-		// takeWhile(([col, row]) => col > 3),
+		takeWhile(([col, row]) => col > 3),
 		// tap(data => console.log(`valid in takeWhile: [${data}]`)),
 		tap(data => console.log(`celda: [${data}]`)),
-		// last()
-		// takeLast(3)
-		skip(5)
-
-
-
-
-
+		// reduce((accumulated, current) => {
+		// 	return {
+		// 		clicks: accumulated.clicks + 1,
+		// 		cells: [... accumulated.cells, current]
+		// 	}
+		// }, {clicks: 0, cells: []})
+		scan((accumulated, current) => {
+			return {
+				clicks: accumulated.clicks + 1,
+				cells: [...accumulated.cells, current]
+			}
+		}, { clicks: 0, cells: [] })
 	)
 
-	const subscription = click$.subscribe(data => console.log(data));
-
+	const subscription = click$.subscribe(data => displayLog(`${data.clicks} clicks: ${JSON.stringify(data.cells)}`));
 
 	/** end coding */
 }
