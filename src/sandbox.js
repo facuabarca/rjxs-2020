@@ -1,5 +1,5 @@
 import { fromEvent } from 'rxjs';
-import { map, first, take, takeWhile } from 'rxjs/operators';
+import { map, takeWhile, last, tap, takeLast, skip} from 'rxjs/operators';
 
 export default () => {
 	/** start coding */
@@ -12,7 +12,14 @@ export default () => {
 
 		// take(4)
 
-		takeWhile(val => val[0] > 3)
+		// takeWhile(([col, row]) => col > 3),
+		// tap(data => console.log(`valid in takeWhile: [${data}]`)),
+		tap(data => console.log(`celda: [${data}]`)),
+		// last()
+		// takeLast(3)
+		skip(5)
+
+
 
 
 
