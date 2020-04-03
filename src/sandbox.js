@@ -1,18 +1,19 @@
-import { fromEvent} from 'rxjs';
-import { mapTo, map, filter} from 'rxjs/operators';
+import { fromEvent } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 
 export default () => {
-    /** start coding */
+	/** start coding */
 	const grid = document.getElementById('grid');
-	
+
 	const click$ = fromEvent(grid, 'click').pipe(
-		// mapTo('click')
-		map(val => [Math.floor( val.offsetX / 50), Math.floor(val.offsetY / 50)]),
-		filter(val => (val[0] + val[1]) % 2 != 0 )
+		tap(val => console.log('before::', val)),
+		map(val => [Math.floor(val.offsetX / 50), Math.floor(val.offsetY / 50)]),
+		tap(val => console.log('after::', val))
+
 	)
 
 	const subscription = click$.subscribe(data => console.log(data));
 
 
-    /** end coding */
+	/** end coding */
 }
