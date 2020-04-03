@@ -1,19 +1,17 @@
 import { displayLog } from './utils';
-import { of, range } from 'rxjs';
+import { interval, timer } from 'rxjs';
 
 export default () => {
 
-	const source = of(1, 2, 3, 4, 5, 6);
+	const source = interval(500);
 
-	const source2 = of(
-		[1, 2, 3],
-		'Hello World',
-		{ foo: "bar" },
-		function sayHello() { return 'hi' }
-	);
+	const subscription = source.subscribe(data => displayLog(data));
 
-	const source3 = range(3,10);
+	timer(3000).subscribe(() => subscription.unsubscribe());
 
-	const subscription = source3.subscribe(data => displayLog(data));
+	const source2 = timer(4000, 100);
 
+	const subscription2 = source2.subscribe(data => displayLog(`timer::: ${data}`));
+
+	timer(5000).subscribe(() => subscription2.unsubscribe());
 }
